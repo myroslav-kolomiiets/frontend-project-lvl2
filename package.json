@@ -1,0 +1,15 @@
+{
+  "name": "@hexlet/code",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/miroslav-kolomiets/frontend-project-lvl2.git",
+  "author": "MiroslavKolomiets <mir.kolomiets@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "commander": "^8.0.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
