@@ -14,4 +14,3 @@ program
     console.log(compareFiles(firstFile, secondFile));
   })
   .parse(process.argv);
-
