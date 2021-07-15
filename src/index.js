@@ -11,47 +11,45 @@ const compareFiles = (firstFile, secondFile) => {
   const tree = keys.map((key) => {
     if (!secondFileToCompare[key]) {
       return {
-        'type' : 'deleted',
-        'key': key,
-        'value': firstFileToCompare[key],
-      }
+        type: 'deleted',
+        key,
+        value: firstFileToCompare[key],
+      };
     }
     if (!firstFileToCompare[key]) {
       return {
-        'type' : 'added',
-        'key': key,
-        'value': secondFileToCompare[key],
-      }
+        type: 'added',
+        key,
+        value: secondFileToCompare[key],
+      };
     }
     if (firstFileToCompare[key] !== secondFileToCompare[key]) {
       return {
-        'type' : 'changed',
-        'key': key,
-        'oldValue': firstFileToCompare[key],
-        'newValue': secondFileToCompare[key],
-      }
+        type: 'changed',
+        key,
+        oldValue: firstFileToCompare[key],
+        newValue: secondFileToCompare[key],
+      };
     }
     return {
-      'type' : 'not-modified',
-      'key': key,
-      'value': firstFileToCompare[key],
-    }
+      type: 'not-modified',
+      key,
+      value: firstFileToCompare[key],
+    };
   });
 
   const log = tree.map((item) => {
     if (item.type === 'deleted') {
-      return (`- ${item.key}: ${item.value}`)
+      return (`- ${item.key}: ${item.value}`);
     }
     if (item.type === 'added') {
-      return (`+ ${item.key}: ${item.value}`)
+      return (`+ ${item.key}: ${item.value}`);
     }
     if (item.type === 'changed') {
-      return (`- ${item.key}: ${item.oldValue}\n+ ${item.key}: ${item.newValue}`)
+      return (`- ${item.key}: ${item.oldValue}\n+ ${item.key}: ${item.newValue}`);
     }
-    if (item.type === 'not-modified') {
-      return (`  ${item.key}: ${item.value}`)
-    }
-  })
+    return (`  ${item.key}: ${item.value}`);
+  });
 
   return log.join('\n');
 };
