@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import { Command } from 'commander/esm.mjs';
 import compareFiles from '../bin/gendiff.js';
 
@@ -11,6 +10,6 @@ program
   .argument('<firstFile>', 'first file to compare')
   .argument('<secondFile>', 'second file to compare')
   .action((firstFile, secondFile) => {
-    compareFiles(firstFile, secondFile)
+    console.log(compareFiles(firstFile, secondFile));
   })
   .parse(process.argv);
