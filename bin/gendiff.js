@@ -20,20 +20,16 @@ const compareFiles = (firstFile, secondFile) => {
 
   const commonKeysResult = commonKeys.map((key) => {
     if (firstFileToCompare[key] === secondFileToCompare[key]) {
-      return (`  ${key}: ${firstFileToCompare[key]}`)
+      return (`  ${key}: ${firstFileToCompare[key]}`);
     }
-    return (`- ${key}: ${firstFileToCompare[key]}${'\n'}+ ${key}: ${secondFileToCompare[key]}`)
-  })
+    return (`- ${key}: ${firstFileToCompare[key]}\n+ ${key}: ${secondFileToCompare[key]}`);
+  });
 
   const uniqFirstKeysResult = uniqFirstFileKeys.map((key) => `- ${key}: ${firstFileToCompare[key]}`);
 
   const uniqSecondKeysResult = uniqSecondFileKeys.map((key) => `+ ${key}: ${secondFileToCompare[key]}`);
 
-  const log = commonKeysResult.concat(uniqFirstKeysResult, uniqSecondKeysResult);
-
-  for (const logItem of log) {
-    console.log(logItem);
-  }
+  return commonKeysResult.concat(uniqFirstKeysResult, uniqSecondKeysResult).join('\n');
 };
 
 export default compareFiles;
