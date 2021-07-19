@@ -9,3 +9,9 @@
 
 ### Lint
 [![Lint](https://github.com/miroslav-kolomiets/frontend-project-lvl2/actions/workflows/linter.yml/badge.svg?branch=main)](https://github.com/miroslav-kolomiets/frontend-project-lvl2/actions/workflows/linter.yml)
+
+### Compare flat json files example.
+[![asciicast](https://asciinema.org/a/kDZwKGx7AnfJIqog8hthmrCtQ.svg)](https://asciinema.org/a/kDZwKGx7AnfJIqog8hthmrCtQ)
+
+### Compare flat yaml files example.
+[![asciicast](https://asciinema.org/a/THi66LgkQhMUgy9gf9vAvBXVA.svg)](https://asciinema.org/a/THi66LgkQhMUgy9gf9vAvBXVA)
