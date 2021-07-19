@@ -1,9 +1,8 @@
 import _ from 'lodash';
-import { readFileSync } from 'fs';
+import parseFilesToObject from './parsers.js';
 
 const compareFiles = (firstFile, secondFile) => {
-  const firstFileToCompare = JSON.parse(readFileSync(firstFile));
-  const secondFileToCompare = JSON.parse(readFileSync(secondFile));
+  const [firstFileToCompare, secondFileToCompare] = parseFilesToObject(firstFile, secondFile);
   const firstKeys = Object.keys(firstFileToCompare);
   const secondKeys = Object.keys(secondFileToCompare);
   const keys = _.sortBy(_.union(firstKeys, secondKeys));
