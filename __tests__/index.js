@@ -8,6 +8,10 @@ const result = '- follow: false\n'
   + '+ timeout: 20\n'
   + '+ verbose: true';
 
-test('Compare files.', () => {
+test('Compare .json files.', () => {
   expect(compareFiles('test-data/file1.json', 'test-data/file2.json')).toBe(result);
+});
+
+test('Compare .yml files.', () => {
+  expect(compareFiles('test-data/filepath1.yml', 'test-data/filepath2.yml')).toBe(result);
 });
