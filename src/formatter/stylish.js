@@ -20,7 +20,7 @@ const stylish = (ast, level = 1) => {
     return null;
   }
 
-  const indent = new Array(level += 1).join('  ');
+  const indent = ' '.repeat(level += 1);
 
   const log = ast.map((item) => {
     if (item.type === types.nested) {
