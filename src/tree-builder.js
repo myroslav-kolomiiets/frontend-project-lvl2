@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 const buildAst = (obj1, obj2) => {
   const firstKeys = Object.keys(obj1);
@@ -13,7 +13,7 @@ const buildAst = (obj1, obj2) => {
         value: obj1[key],
       };
     }
-    if (!obj1[key] && obj1[key] !== "") {
+    if (!obj1[key] && obj1[key] !== '') {
       return {
         type: 'added',
         key,

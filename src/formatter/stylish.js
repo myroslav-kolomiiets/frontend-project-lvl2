@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 const types = {
   nested: 'nested',
@@ -8,19 +8,19 @@ const types = {
 };
 
 const renderChild = (value, level) => {
-    if (_.isObject(value)) {
-      return (`${JSON.stringify(value, null, 1 + level)}`);
-    }
+  if (_.isObject(value)) {
+    return (`${JSON.stringify(value, null, 1 + level)}`);
+  }
 
   return (`${value}`);
 };
 
 const stylish = (ast, level = 1) => {
   if (!ast) {
-    return;
+    return null;
   }
 
-  const indent = new Array(level++).join('  ');
+  const indent = new Array(level += 1).join('  ');
 
   const log = ast.map((item) => {
     if (item.type === types.nested) {

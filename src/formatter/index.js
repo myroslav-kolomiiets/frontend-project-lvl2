@@ -4,6 +4,4 @@ const formatters = {
   stylish,
 };
 
-export default (ast, type) => {
-  return formatters[type](ast);
-};
+export default (ast, type) => formatters[type](ast);

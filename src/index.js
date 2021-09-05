@@ -1,12 +1,12 @@
+import { readFileSync } from 'fs';
+import path from 'path';
 import parse from './parsers.js';
 import buildAst from './tree-builder.js';
 import formatter from './formatter/index.js';
-import { readFileSync } from 'fs';
-import path from 'path';
 
 const extractFormat = (filePath) => path.extname(filePath).slice(1);
 
-const getData = (path) => parse(readFileSync(path), extractFormat(path));
+const getData = (filePath) => parse(readFileSync(filePath), extractFormat(filePath));
 
 const compareFiles = (path1, path2, format = 'stylish') => {
   const obj1 = getData(path1);
