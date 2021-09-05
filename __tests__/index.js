@@ -9,9 +9,9 @@ const result = '- follow: false\n'
   + '+ verbose: true';
 
 test('Compare .json files.', () => {
-  expect(compareFiles('test-data/file1.json', 'test-data/file2.json')).toBe(result);
+  expect(compareFiles('__fixtures__/file1.json', '__fixtures__/file2.json')).toBe(result);
 });
 
 test('Compare .yml files.', () => {
-  expect(compareFiles('test-data/filepath1.yml', 'test-data/filepath2.yml')).toBe(result);
+  expect(compareFiles('__fixtures__/filepath1.yml', '__fixtures__/filepath2.yml')).toBe(result);
 });

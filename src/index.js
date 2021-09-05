@@ -1,56 +1,21 @@
-import _ from 'lodash';
-import parseFilesToObject from './parsers.js';
+import parse from './parsers.js';
+import buildAst from './tree-builder.js';
+import formatter from './formatter/index.js';
+import { readFileSync } from 'fs';
+import path from 'path';
 
-const compareFiles = (firstFile, secondFile) => {
-  const [firstFileToCompare, secondFileToCompare] = parseFilesToObject(firstFile, secondFile);
-  const firstKeys = Object.keys(firstFileToCompare);
-  const secondKeys = Object.keys(secondFileToCompare);
-  const keys = _.sortBy(_.union(firstKeys, secondKeys));
+const extractFormat = (filePath) => path.extname(filePath).slice(1);
 
-  const tree = keys.map((key) => {
-    if (!secondFileToCompare[key]) {
-      return {
-        type: 'deleted',
-        key,
-        value: firstFileToCompare[key],
-      };
-    }
-    if (!firstFileToCompare[key]) {
-      return {
-        type: 'added',
-        key,
-        value: secondFileToCompare[key],
-      };
-    }
-    if (firstFileToCompare[key] !== secondFileToCompare[key]) {
-      return {
-        type: 'changed',
-        key,
-        oldValue: firstFileToCompare[key],
-        newValue: secondFileToCompare[key],
-      };
-    }
-    return {
-      type: 'not-modified',
-      key,
-      value: firstFileToCompare[key],
-    };
-  });
+const getData = (path) => parse(readFileSync(path), extractFormat(path));
 
-  const log = tree.map((item) => {
-    if (item.type === 'deleted') {
-      return (`- ${item.key}: ${item.value}`);
-    }
-    if (item.type === 'added') {
-      return (`+ ${item.key}: ${item.value}`);
-    }
-    if (item.type === 'changed') {
-      return (`- ${item.key}: ${item.oldValue}\n+ ${item.key}: ${item.newValue}`);
-    }
-    return (`  ${item.key}: ${item.value}`);
-  });
+const compareFiles = (path1, path2, format = 'stylish') => {
+  const obj1 = getData(path1);
+  const obj2 = getData(path2);
+  const ast = buildAst(obj1, obj2);
 
-  return log.join('\n');
+  // console.log(JSON.stringify(ast, null, 4));
+
+  return formatter(ast, format);
 };
 
 export default compareFiles;
