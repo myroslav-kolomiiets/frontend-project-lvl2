@@ -12,13 +12,9 @@ program
   .argument('<secondFile>', 'second file to compare')
   .action((firstFile, secondFile) => {
     const options = program.opts();
-    const format = options.format;
+    const { format } = options;
     const diff = compareFiles(firstFile, secondFile, format);
 
-    if (format !== 'json') {
-      console.log(diff);
-      return;
-    }
-    console.log(JSON.stringify(diff, null, 4));
+    console.log(diff);
   })
   .parse(process.argv);

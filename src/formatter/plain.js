@@ -9,14 +9,12 @@ const types = {
 
 const renderChild = (value) => {
   if (_.isObject(value)) {
-    return (`[complex value]`);
+    return ('[complex value]');
   }
   return (`${value}`);
 };
 
-const getPath = (step) => {
-  return (step && true) ? step.concat('.') : '';
-};
+const getPath = (step) => ((step && true) ? step.concat('.') : '');
 
 const plain = (ast, step) => {
   if (!ast) {
@@ -28,7 +26,7 @@ const plain = (ast, step) => {
   const log = ast.map((item) => {
     if (item.type === types.nested) {
       return (
-        `${plain(item.children, `${step ? step + '.' + item.key : item.key}`)}`
+        `${plain(item.children, `${step ? `${step}.${item.key}` : item.key}`)}`
       );
     }
     if (item.type === types.deleted) {
