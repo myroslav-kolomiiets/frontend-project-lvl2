@@ -20,31 +20,33 @@ const stylish = (ast, level = 1) => {
     return null;
   }
 
-  const indent = ' '.repeat(level += 1);
+  let indentLevel = level;
+
+  const indent = ' '.repeat(indentLevel += 1);
 
   const log = ast.map((item) => {
     if (item.type === types.nested) {
       return (
-        `${indent}${item.key}: {\n${stylish(item.children, level)}\n${indent}}`
+        `${indent}${item.key}: {\n${stylish(item.children, indentLevel)}\n${indent}}`
       );
     }
     if (item.type === types.deleted) {
       return (
-        `${indent}- ${item.key}: ${renderChild(item.value, level)}${indent}`
+        `${indent}- ${item.key}: ${renderChild(item.value, indentLevel)}${indent}`
       );
     }
     if (item.type === types.added) {
       return (
-        `${indent}+ ${item.key}: ${renderChild(item.value, level)}${indent}`
+        `${indent}+ ${item.key}: ${renderChild(item.value, indentLevel)}${indent}`
       );
     }
     if (item.type === types.changed) {
       return (
-        `${indent}- ${item.key}: ${renderChild(item.oldValue, level)}\n${indent}+ ${item.key}: ${renderChild(item.newValue, level)}${indent}`
+        `${indent}- ${item.key}: ${renderChild(item.oldValue, indentLevel)}\n${indent}+ ${item.key}: ${renderChild(item.newValue, level)}${indent}`
       );
     }
     return (
-      `${indent}  ${item.key}: ${renderChild(item.value, level)}${indent}`
+      `${indent}  ${item.key}: ${renderChild(item.value, indentLevel)}${indent}`
     );
   });
 

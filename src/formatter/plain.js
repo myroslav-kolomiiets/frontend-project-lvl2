@@ -44,6 +44,7 @@ const plain = (ast, step) => {
         `Property ${path}${item.key} was updated. From ${renderChild(item.oldValue)} to ${renderChild(item.newValue)}`
       );
     }
+    return undefined;
   });
 
   return log.filter((item) => item !== undefined).join('\n');
