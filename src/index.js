@@ -13,8 +13,6 @@ const compareFiles = (path1, path2, format = 'stylish') => {
   const obj2 = getData(path2);
   const ast = buildAst(obj1, obj2);
 
-  // console.log(JSON.stringify(ast, null, 4));
-
   return formatter(ast, format);
 };
 
