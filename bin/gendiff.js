@@ -14,6 +14,11 @@ program
     const options = program.opts();
     const format = options.format;
     const diff = compareFiles(firstFile, secondFile, format);
-    console.log(diff);
+
+    if (format !== 'json') {
+      console.log(diff);
+      return;
+    }
+    console.log(JSON.stringify(diff, null, 4));
   })
   .parse(process.argv);
