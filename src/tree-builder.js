@@ -6,7 +6,7 @@ const buildAst = (obj1, obj2) => {
   const keys = _.sortBy(_.union(firstKeys, secondKeys));
 
   return keys.map((key) => {
-    if (!obj2[key] && (obj2[key] !== false) && (obj2[key] !== null)) {
+    if (!_.has(obj2, key)) {
       return {
         type: 'deleted',
         key,
@@ -20,14 +20,14 @@ const buildAst = (obj1, obj2) => {
         value: obj2[key],
       };
     }
-    if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+    if (_.isPlainObject(obj1[key]) && _.isPlainObject(obj2[key])) {
       return {
         type: 'nested',
         key,
         children: buildAst(obj1[key], obj2[key]),
       };
     }
-    if (obj1[key] !== obj2[key]) {
+    if (!_.isEqual(obj1[key], obj2[key])) {
       return {
         type: 'changed',
         key,
