@@ -1,33 +1,35 @@
 import _ from 'lodash';
 
-const stringify = (value, level) => {
-  if (_.isObject(value)) {
-    return (`${JSON.stringify(value, null, 4 + level)}`);
+const stringify = (data, replacer = ' ', space = 1) => {
+  const indentBefore = replacer.repeat(space);
+  const indentAfter = replacer.repeat(space / 2);
+
+  if (_.isObject(data)) {
+    const keys = Object.keys(data);
+    const result = keys.map((key) => `${indentBefore}${key}: ${stringify(data[key], replacer, space * 2)}`);
+    return `{\n${result.join('\n')}\n${indentAfter}}`;
   }
 
-  return (`${value}`);
+  return `${data}`;
 };
-
-const getIndent = (level) => ' '.repeat(level += 1);
 
 const stylish = (ast, level = 1) => {
   if (!ast) {
     return null;
   }
 
-  const indentLevel = level;
-
-  const indent = getIndent(indentLevel);
+  const indentBefore = new Array(level++ + 1).join(' ');
+  const indentAfter = new Array(level - 1).join(' ');
 
   const log = {
-    nested: (item) => `${indent}${item.key}: ${stylish(item.children, indentLevel)}\n${indent}`,
-    deleted: (item) => `${indent}  - ${item.key}: ${stringify(item.value, indentLevel)}${indent}`,
-    added: (item) => `${indent}  + ${item.key}: ${stringify(item.value, indentLevel)}${indent}`,
-    changed: (item) => `${indent}  - ${item.key}: ${stringify(item.oldValue, indentLevel)}\n${indent}  + ${item.key}: ${stringify(item.newValue, level)}${indent}`,
-    'not-modified': (item) => `${indent}    ${item.key}: ${stringify(item.value, indentLevel)}${indent}`,
+    nested: (item) => `${indentBefore}${item.key}: ${stylish(item.children, level * 2)}`,
+    deleted: (item) => `${indentBefore}- ${item.key}: ${stringify(item.value, ' ', level * 2)}`,
+    added: (item) => `${indentBefore}+ ${item.key}: ${stringify(item.value, ' ', level * 2)}`,
+    changed: (item) => `${indentBefore}- ${item.key}: ${stringify(item.oldValue, ' ', level * 2)}\n${indentBefore}+ ${item.key}: ${stringify(item.newValue, ' ', level * 2)}`,
+    'not-modified': (item) => `${indentBefore}  ${item.key}: ${stringify(item.value, ' ', level * 2)}`,
   };
 
-  return `{\n${ast.map((item) => log[item.type](item)).join('\n')}\n}`;
+  return `{\n${ast.map((item) => log[item.type](item)).join('\n')}\n${indentAfter}}`;
 };
 
 export default stylish;
