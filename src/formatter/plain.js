@@ -1,6 +1,9 @@
 import _ from 'lodash';
 
-const stringify = (value) => {
+const renderChild = (value) => {
+  if (_.isString(value)) {
+    return `'${value}'`;
+  }
   if (_.isObject(value)) {
     return '[complex value]';
   }
@@ -9,27 +12,24 @@ const stringify = (value) => {
 
 const getPath = (step) => (step ? step.concat('.') : '');
 
-const plain = (ast) => {
+const plain = (ast, step) => {
   if (!ast) {
     return null;
   }
-  const inner = (innerAst, step) => {
-    const path = getPath(step);
 
-    const log = {
-      nested: (item) => `${plain(item.children, `${step ? `${step}.${item.key}` : item.key}`)}`,
-      deleted: (item) => `Property ${path}${item.key} was removed`,
-      added: (item) => `Property ${path}${item.key} was added with value: ${stringify(item.value)}`,
-      changed: (item) => `Property ${path}${item.key} was updated. From ${stringify(item.oldValue)} to ${stringify(item.newValue)}`,
-      'not-modified': () => undefined,
-    };
+  const path = getPath(step);
 
-    const result = innerAst.map((item) => log[item.type](item));
-
-    return result.filter((item) => item !== undefined).join('\n');
+  const log = {
+    nested: (item) => `${plain(item.children, `${step ? `${step}.${item.key}` : item.key}`)}`,
+    deleted: (item) => `Property '${path}${item.key}' was removed`,
+    added: (item) => `Property '${path}${item.key}' was added with value: ${renderChild(item.value)}`,
+    changed: (item) => `Property '${path}${item.key}' was updated. From ${renderChild(item.oldValue)} to ${renderChild(item.newValue)}`,
+    'not-modified': () => undefined,
   };
 
-  return inner(ast);
+  const result = ast.map((item) => log[item.type](item));
+
+  return result.filter((item) => item !== undefined).join('\n');
 };
 
 export default plain;
