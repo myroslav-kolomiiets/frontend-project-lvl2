@@ -25,7 +25,6 @@ const stylish = (ast) => {
   }
   const inner = (innerAst, level) => {
     const indent = getIndent(level);
-    console.log(indent.length);
 
     const log = {
       nested: (item) => `${indent}${item.key}: ${inner(item.children, level + 1)}`,
