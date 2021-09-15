@@ -32,7 +32,7 @@ const plain = (ast) => {
     return result.filter((item) => item !== undefined).join('\n');
   };
 
-  return inner(ast)
+  return inner(ast);
 };
 
 export default plain;
