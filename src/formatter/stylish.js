@@ -28,10 +28,10 @@ const stylish = (ast) => {
 
     const log = {
       nested: (item) => `${indent}${item.key}: ${inner(item.children, level + 1)}`,
-      deleted: (item) => `${indent}- ${item.key}: ${stringify(item.value, level)}`,
-      added: (item) => `${indent}+ ${item.key}: ${stringify(item.value, level)}`,
-      changed: (item) => `${indent}- ${item.key}: ${stringify(item.oldValue, level)}\n${indent}+ ${item.key}: ${stringify(item.newValue, level)}`,
-      'not-modified': (item) => `${indent}  ${item.key}: ${stringify(item.value, level)}`,
+      deleted: (item) => `${indent.substring(0, indent.length - 2)}- ${item.key}: ${stringify(item.value, level)}`,
+      added: (item) => `${indent.substring(0, indent.length - 2)}+ ${item.key}: ${stringify(item.value, level)}`,
+      changed: (item) => `${indent.substring(0, indent.length - 2)}- ${item.key}: ${stringify(item.oldValue, level)}\n${indent.substring(0, indent.length - 2)}+ ${item.key}: ${stringify(item.newValue, level)}`,
+      'not-modified': (item) => `${indent}${item.key}: ${stringify(item.value, level)}`,
     };
 
     return `{\n${innerAst.map((item) => log[item.type](item)).join('\n')}\n${getIndent(level - 1)}}`;
