@@ -11,6 +11,10 @@ program
   .argument('<firstFile>', 'first file to compare')
   .argument('<secondFile>', 'second file to compare')
   .action((firstFile, secondFile) => {
-    console.log(compareFiles(firstFile, secondFile));
+    const options = program.opts();
+    const { format } = options;
+    const diff = compareFiles(firstFile, secondFile, format);
+
+    console.log(diff);
   })
   .parse(process.argv);

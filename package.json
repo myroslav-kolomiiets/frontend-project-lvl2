@@ -7,7 +7,7 @@
   "license": "MIT",
   "type": "module",
   "bin": {
-    "compareFiles": "bin/gendiff.js"
+    "gendiff": "bin/gendiff.js"
   },
   "scripts": {
     "test": "jest"
