@@ -19,7 +19,7 @@ const plain = (ast) => {
   const inner = (innerAst, innerStep) => {
     const path = getPath(innerStep);
 
-    const log = {
+    const mapping = {
       nested: (item) => `${inner(item.children, `${innerStep ? `${innerStep}.${item.key}` : item.key}`)}`,
       deleted: (item) => `Property '${path}${item.key}' was removed`,
       added: (item) => `Property '${path}${item.key}' was added with value: ${renderChild(item.value)}`,
@@ -27,7 +27,7 @@ const plain = (ast) => {
       'not-modified': () => undefined,
     };
 
-    const result = innerAst.map((item) => log[item.type](item));
+    const result = innerAst.map((item) => mapping[item.type](item));
 
     return result.filter((item) => item !== undefined).join('\n');
   };

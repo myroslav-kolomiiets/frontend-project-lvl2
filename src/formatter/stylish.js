@@ -1,8 +1,6 @@
 import _ from 'lodash';
 
-const indentStep = 1;
-
-const getIndent = (level) => '    '.repeat(level * indentStep);
+const getIndent = (level) => '    '.repeat(level);
 
 const stringify = (data, level) => {
   const inner = (innerData, innerLevel) => {
@@ -26,7 +24,7 @@ const stylish = (ast) => {
   const inner = (innerAst, level) => {
     const indent = getIndent(level);
 
-    const log = {
+    const mapping = {
       nested: (item) => `${indent}${item.key}: ${inner(item.children, level + 1)}`,
       deleted: (item) => `${indent.substring(0, indent.length - 2)}- ${item.key}: ${stringify(item.value, level)}`,
       added: (item) => `${indent.substring(0, indent.length - 2)}+ ${item.key}: ${stringify(item.value, level)}`,
@@ -34,7 +32,7 @@ const stylish = (ast) => {
       'not-modified': (item) => `${indent}${item.key}: ${stringify(item.value, level)}`,
     };
 
-    return `{\n${innerAst.map((item) => log[item.type](item)).join('\n')}\n${getIndent(level - 1)}}`;
+    return `{\n${innerAst.map((item) => mapping[item.type](item)).join('\n')}\n${getIndent(level - 1)}}`;
   };
 
   return inner(ast, 1);
