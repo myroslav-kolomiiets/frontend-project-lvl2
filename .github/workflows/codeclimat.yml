@@ -1,5 +1,5 @@
 name: coverage
-on: push
+runs-on: push
 jobs:
   test:
     name: test/node
