@@ -1,4 +1,4 @@
-name: Lint
+name: CI
 
 on: push
 
@@ -26,3 +26,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Enable linters
           eslint: true
+
+      - name: Code Climate Coverage Action
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: ffb07d90d7ba252a41cd54f436d62da5c521994fd7b0f24ca168db250c90eeab
+        with:
+          coverageCommand: yarn coverage
