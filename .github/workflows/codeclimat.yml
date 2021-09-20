@@ -1,7 +1,17 @@
-name: codeclimate
+name: build
 on: push
-
 jobs:
+  test:
+    name: test/node
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: '12'
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn build
+      - run: yarn test
   coverage:
     needs: [ test ]
     name: coverage
@@ -16,6 +26,6 @@ jobs:
       - run: yarn build
       - uses: paambaati/codeclimate-action@v2.2.4
         env:
-          CC_TEST_REPORTER_ID: ffb07d90d7ba252a41cd54f436d62da5c521994fd7b0f24ca168db250c90eeab
+          CC_TEST_REPORTER_ID: 945dfb58a832d233a3caeb84e3e6d3be212e8c7abcb48117fce63b9adcb43647
         with:
           coverageCommand: yarn coverage
