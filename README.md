@@ -9,6 +9,7 @@
 
 ### CI
 [![CI](https://github.com/miroslav-kolomiets/frontend-project-lvl2/actions/workflows/ci.yml/badge.svg)](https://github.com/miroslav-kolomiets/frontend-project-lvl2/actions/workflows/ci.yml)
+
 ### Compare flat json files example.
 [![asciicast](https://asciinema.org/a/kDZwKGx7AnfJIqog8hthmrCtQ.svg)](https://asciinema.org/a/kDZwKGx7AnfJIqog8hthmrCtQ)
 
