@@ -1,14 +1,28 @@
 name: coverage
 on: push
+    tags:
+      - '!*' # Do not execute on tags
+    paths:
+      - src/*
+      - test/*
+      - '*.json'
+      - yarn.lock
+  pull_request:
+    paths:
+      - '!*.MD'
 jobs:
   test:
-    name: test/node
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ ubuntu-latest, macOS-latest ]
+        node: [ '12', '10' ]
+    name: test/node ${{ matrix.node }}/${{ matrix.platform }}
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
-          node-version: '12'
+          node-version: ${{ matrix.node }}
       - run: npm install
       - run: npm run test
   coverage:
@@ -23,6 +37,6 @@ jobs:
       - run: npm  install
       - uses: paambaati/codeclimate-action@v2.2.4
         env:
-          CC_TEST_REPORTER_ID: 945dfb58a832d233a3caeb84e3e6d3be212e8c7abcb48117fce63b9adcb43647
+          CC_TEST_REPORTER_ID: ffb07d90d7ba252a41cd54f436d62da5c521994fd7b0f24ca168db250c90eeab
         with:
           coverageCommand: yarn coverage
