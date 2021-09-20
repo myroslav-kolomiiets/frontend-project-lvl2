@@ -1,18 +1,37 @@
 name: codeclimate
-
-on:
-  push:
-    branches:
-      - '**'
+on: push
 
 jobs:
-  build:
+  test:
+    strategy:
+      matrix:
+        platform: [ ubuntu-latest, macOS-latest ]
+        node: [ '12', '10' ]
+    name: test/node ${{ matrix.node }}/${{ matrix.platform }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn build
+      - run: yarn test
+  coverage:
+    needs: [ test ]
+    name: coverage
     runs-on: ubuntu-latest
     steps:
-      - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v2.7.5
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: '12'
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn build
+      - uses: paambaati/codeclimate-action@v2.2.4
         env:
           CC_TEST_REPORTER_ID: ffb07d90d7ba252a41cd54f436d62da5c521994fd7b0f24ca168db250c90eeab
         with:
-          coverageCommand: npm run coverage
-          debug: true
+          coverageCommand: yarn coverage
