@@ -1,3 +1,10 @@
+name: codeclimate
+
+on:
+  push:
+    branches:
+      - '**'
+
 steps:
   - name: Test & publish code coverage
     uses: paambaati/codeclimate-action@v2.7.5
