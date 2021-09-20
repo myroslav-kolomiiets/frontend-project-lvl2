@@ -2,22 +2,6 @@ name: codeclimate
 on: push
 
 jobs:
-  test:
-    strategy:
-      matrix:
-        platform: [ ubuntu-latest, macOS-latest ]
-        node: [ '12', '10' ]
-    name: test/node ${{ matrix.node }}/${{ matrix.platform }}
-    runs-on: ${{ matrix.platform }}
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
-        with:
-          node-version: ${{ matrix.node }}
-      - run: npm install -g yarn
-      - run: yarn install
-      - run: yarn build
-      - run: yarn test
   coverage:
     needs: [ test ]
     name: coverage
